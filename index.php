@@ -6,11 +6,11 @@ require_once './pdo_ini.php';
 session_start();
 
 if (!isset($_SESSION['todo_list_id'])) {
-  $sth = $pdo->prepare("
+  $stmt = $pdo->prepare("
 			INSERT INTO todo_lists (created_at)
 			VALUES (NOW())
 		");
-  $sth->execute();
+  $stmt->execute();
   $_SESSION['todo_list_id'] = $pdo->lastInsertId();
 }
 ?>
@@ -28,7 +28,7 @@ if (!isset($_SESSION['todo_list_id'])) {
 
 <body>
   <div class="main-section">
-  
+
     <div class="add-section">
       <form action="app/add.php" method="POST" autocomplete="off">
         <?php if (isset($_GET['mess']) && $_GET['mess'] == 'error') { ?>
@@ -42,7 +42,7 @@ if (!isset($_SESSION['todo_list_id'])) {
     </div>
 
     <?php
-    $todos = $pdo->query("SELECT * FROM todo_tasks ORDER BY id DESC");
+    $todos = $pdo->query("SELECT * FROM todo_tasks WHERE todo_list_id = {$_SESSION['todo_list_id']} ORDER BY id DESC");
     ?>
 
     <div class="show-todo-section">
