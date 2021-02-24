@@ -1,6 +1,18 @@
 <?php
+
 /** @var PDO $pdo */
 require_once './pdo_ini.php';
+
+session_start();
+
+if (!isset($_SESSION['todo_list_id'])) {
+  $sth = $pdo->prepare("
+			INSERT INTO todo_lists (created_at)
+			VALUES (NOW())
+		");
+  $sth->execute();
+  $_SESSION['todo_list_id'] = $pdo->lastInsertId();
+}
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +28,7 @@ require_once './pdo_ini.php';
 
 <body>
   <div class="main-section">
-
+<?php var_dump($_SESSION['todo_list_id']); ?>
     <div class="add-section">
       <form action="app/add.php" method="POST" autocomplete="off">
         <?php if (isset($_GET['mess']) && $_GET['mess'] == 'error') { ?>
