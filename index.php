@@ -28,7 +28,7 @@ if (!isset($_SESSION['todo_list_id'])) {
 
 <body>
   <div class="main-section">
-<?php var_dump($_SESSION['todo_list_id']); ?>
+  
     <div class="add-section">
       <form action="app/add.php" method="POST" autocomplete="off">
         <?php if (isset($_GET['mess']) && $_GET['mess'] == 'error') { ?>
